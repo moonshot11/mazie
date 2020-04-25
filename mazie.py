@@ -136,6 +136,11 @@ amt_tests = 2 ** len(doors)
 invalid_count = 0
 skip_count = 0
 
+# Set upper-case vars so layout file can use
+# eval statements such as "A.open != B.open"
+for k,v in doors.items():
+    exec(k + " = v")
+
 for i in range(amt_tests):
     if i % 1117 == 0:
         print("\rRunning test {} of {}...".format(i+1, amt_tests), end="")

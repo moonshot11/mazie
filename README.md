@@ -34,4 +34,14 @@ You can create dynamic statements using `open`, `closed`, and `path` to referenc
 ? open == 3
 ```
 
+You can refer to a specific door's state with `<door name>.open`.
+
+```
+# Only one of A and B can be open
+? A.open != B.open
+
+# Only one of C, D, and E can be open
+sum( [C.open, D.open, E.open] ) == 1
+```
+
 Mazie has an implicit requirement that all cells must be visited.
