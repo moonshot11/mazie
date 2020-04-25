@@ -22,7 +22,7 @@ letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
 def door_criteria(cells, doors):
     """Use this function to filter for specific scenarios"""
-    c_cnts = {k:len(v.connections()) for k,v in cells.items()}
+    c_cnts = {k:len(v.connections) for k,v in cells.items()}
     d_cnts = {k:int(v.open) for k,v in doors.items()}
     return True
 
@@ -117,6 +117,7 @@ class Cell:
         self.doors = set()
         self.prev = None
 
+    @property
     def connections(self):
         """Return cells connected to this cell through open doors"""
         result = list()
@@ -165,7 +166,7 @@ for i in range(amt_tests):
     while candidates:
         cell = candidates.pop(0)
         visited.add(cell)
-        adjs = [c for c in cell.connections()
+        adjs = [c for c in cell.connections
                 if c not in visited and c not in candidates]
         for adj in adjs:
             candidates.append(adj)
