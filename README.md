@@ -44,4 +44,14 @@ You can refer to a specific door's state with `<door name>.open`.
 sum( [C.open, D.open, E.open] ) == 1
 ```
 
+You can use `CONTAINS` and `OMITS` to require whether certain cells are in the shortest path:
+
+```
+# Requires the living room to be in the shortest path
+CONTAINS living_room foyer
+
+# Requires that the office and hall are NOT in the shortest path
+OMITS office hall
+```
+
 Mazie has an implicit requirement that all cells must be visited.

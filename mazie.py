@@ -12,6 +12,8 @@ END = None
 cells = dict()
 doors = dict()
 force_close, force_open = [], []
+force_cells = list()
+force_not_cells = list()
 evals = list()
 
 # List of tuples of open/closed doors
@@ -62,6 +64,16 @@ def read_layout(filename):
             continue
         if line.startswith("OPEN "):
             force_open.append(line[5])
+            continue
+        if line.startswith("CONTAINS "):
+            cellnames = line.split()[1:]
+            for name in cellnames:
+                force_cells.append(name)
+            continue
+        if line.startswith("OMITS "):
+            cellnames = line.split()[1:]
+            for name in cellnames:
+                force_not_cells.append(name)
             continue
         if line.startswith("? "):
             evals.append(line[2:])
@@ -199,6 +211,16 @@ for i in range(amt_tests):
         if not eval(statement):
             filter_pass = False
             break
+    if filter_pass:
+        for cell in force_cells:
+            if cell not in data[2]:
+                filter_pass = False
+                break
+    if filter_pass:
+        for cell in force_not_cells:
+            if cell in data[2]:
+                filter_pass = False
+                break
 
     open = py_open
 
