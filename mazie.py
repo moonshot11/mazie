@@ -41,12 +41,8 @@ def report(filename, results):
             fout.write(gen_line("Path", path, " -> "))
             fout.write("\n")
 
-def set_all_doors(doors, open_doors):
-    for door in doors.values():
-        door.open = door.name in open_doors
-
 def read_layout(filename):
-    """Read in data"""
+    """Read layout from file"""
     global START, END
 
     with open(filename, "r") as fin:
@@ -92,16 +88,19 @@ def read_layout(filename):
 class Door:
     """A door (edge) object"""
     def __init__(self, name):
+        """Create a Door object"""
         self.name = name
         self.r1 = None
         self.r2 = None
         self.open = False
 
     def set_cells(self, r1, r2):
+        """Set the cells connected to this object"""
         self.r1 = r1
         self.r2 = r2
 
     def other(self, ra):
+        """Given one cell, return this door's other cell"""
         if ra == self.r1:
             return self.r2
         if ra == self.r2:
@@ -113,11 +112,13 @@ class Door:
 class Cell:
     """A cell (node) object"""
     def __init__(self, name):
+        """Create a Cell object"""
         self.name = name
         self.doors = set()
         self.prev = None
 
     def connections(self):
+        """Return cells connected to this cell through open doors"""
         result = list()
         for door in self.doors:
             if not door.open:
@@ -180,6 +181,7 @@ for i in range(amt_tests):
     closed_doors = sorted([d.name for d in doors.values() if not d.open])
     data = (open_doors, closed_doors, path)
 
+    # Preserve the "open" symbol's Python definition
     py_open = open
 
     filter_pass = True
@@ -194,10 +196,12 @@ for i in range(amt_tests):
 
     open = py_open
 
+    # Implicit requirement that all cells are visited
     if len(visited) == len(cells) and filter_pass:
         results_pass.append(data)
     else:
         results_fail.append(data)
+
 print("\rRunning test {0} of {0}...".format(amt_tests), end="")
 
 print("{} passing, {} invalid, {} skipped".format(len(results_pass), len(results_fail), skip_count))

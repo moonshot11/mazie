@@ -33,3 +33,5 @@ You can create dynamic statements using `open`, `closed`, and `path` to referenc
 # Check for solutions where exactly there doors are closed
 ? open == 3
 ```
+
+Mazie has an implicit requirement that all cells must be visited.
