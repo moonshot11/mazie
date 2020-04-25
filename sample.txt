@@ -1,0 +1,16 @@
+A foyer office
+B office backyard
+C foyer hall
+D foyer kitchen
+E foyer bathroom
+F kitchen living_room
+G living_room backyard
+H kitchen living_room
+
+
+START foyer
+END backyard
+
+CLOSE B
+
+? open >= 7
