@@ -1,6 +1,11 @@
 Mazie, the Maze Evaluator
 =====
 
+Given a specification for a maze (comprised of cells, and doors connecting them), Mazie determines all possible states with doors open and closed, and if the maze is solvable, it prints the shortest possible path from the start to finish. Cells are described using alphanumerical characters (no spaces!), and doors are described using **upper case letters only**.
+
+Usage
+-----
+
 Create a text file to define doors (edges) and cells (nodes)
 
 `A kitchen living_room`
