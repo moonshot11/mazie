@@ -3,8 +3,11 @@
 # Processes cells and doors, and determines whether
 # maze completion is possible
 
+import os
 import re
 import sys
+
+DEFAULT_FN = "layout.txt"
 
 START = None
 END = None
@@ -140,9 +143,16 @@ class Cell:
         return result
 
 if len(sys.argv) < 2:
-    print("Layout file required")
+    print("Reading default layout file: " + DEFAULT_FN)
+    filename = DEFAULT_FN
+else:
+    filename = sys.argv[1]
+
+if not os.path.isfile(filename):
+    print("ERROR: Could not find file " + filename)
     sys.exit(1)
-read_layout(sys.argv[1])
+
+read_layout(filename)
 
 amt_tests = 2 ** len(doors)
 invalid_count = 0
