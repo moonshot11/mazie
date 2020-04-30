@@ -19,9 +19,8 @@ force_cells = list()
 force_not_cells = list()
 evals = list()
 
-# List of tuples of open/closed doors
-results_pass = list()
-results_fail = list()
+pass_count = 0
+fail_count = 0
 
 letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -31,20 +30,18 @@ def door_criteria(cells, doors):
     d_cnts = {k:int(v.open) for k,v in doors.items()}
     return True
 
-def report(filename, results):
+def report(fout, result):
     """Create a report file"""
     def gen_line(title, data, delim=" "):
         """Generate a line for reporting"""
         res = "{}({}):".format(title, len(data)).ljust(13) + delim.join(data) + "\n"
         return res
 
-    with open(filename, "w") as fout:
-        for result in results:
-            opened, closed, path = result
-            fout.write(gen_line("Open", opened))
-            fout.write(gen_line("Closed", closed))
-            fout.write(gen_line("Path", path, " -> "))
-            fout.write("\n")
+    opened, closed, path = result
+    fout.write(gen_line("Open", opened))
+    fout.write(gen_line("Closed", closed))
+    fout.write(gen_line("Path", path, " -> "))
+    fout.write("\n")
 
 def read_layout(filename):
     """Read layout from file"""
@@ -163,6 +160,9 @@ skip_count = 0
 for k,v in doors.items():
     exec(k + " = v")
 
+fh_pass = open("pass.txt", "w")
+fh_fail = open("fail.txt", "w")
+
 for i in range(amt_tests):
     if i % 1117 == 0:
         print("\rRunning test {} of {}...".format(i+1, amt_tests), end="")
@@ -236,12 +236,15 @@ for i in range(amt_tests):
 
     # Implicit requirement that all cells are visited
     if len(visited) == len(cells) and filter_pass:
-        results_pass.append(data)
+        report(fh_pass, data)
+        pass_count += 1
     else:
-        results_fail.append(data)
+        report(fh_fail, data)
+        fail_count += 1
 
 print("\rRunning test {0} of {0}...".format(amt_tests), end="")
+print("{} passing, {} invalid, {} skipped".format(pass_count, fail_count, skip_count))
 
-print("{} passing, {} invalid, {} skipped".format(len(results_pass), len(results_fail), skip_count))
-report("pass.txt", results_pass)
-report("fail.txt", results_fail)
+fh_pass.close()
+fh_fail.close()
+
