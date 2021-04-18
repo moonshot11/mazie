@@ -21,7 +21,7 @@ evals = list()
 
 # List of tuples of open/closed doors
 results_pass = list()
-results_fail = list()
+fail_count = 0
 
 letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 
@@ -238,10 +238,9 @@ for i in range(amt_tests):
     if len(visited) == len(cells) and filter_pass:
         results_pass.append(data)
     else:
-        results_fail.append(data)
+        fail_count += 1
 
 print("\rRunning test {0} of {0}...".format(amt_tests), end="")
 
-print("{} passing, {} invalid, {} skipped".format(len(results_pass), len(results_fail), skip_count))
+print("{} passing, {} invalid, {} skipped".format(len(results_pass), fail_count, skip_count))
 report("pass.txt", results_pass)
-report("fail.txt", results_fail)
